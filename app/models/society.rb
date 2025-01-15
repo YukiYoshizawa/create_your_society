@@ -3,9 +3,9 @@ class Society < ApplicationRecord
   belongs_to :owner, class_name: 'User'
   has_many :users, through: :user_societies
 
-  validates :name, presence: true
+  validates :title, presence: true
   validates :introduction, presence: true
-  has_one_attached :group_image
+  has_one_attached :society_image
   
   def is_owned_by?(user)
     owner.id == user.id

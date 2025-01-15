@@ -6,13 +6,15 @@ class Public::SocietiesController < ApplicationController
 
   def show
     @society = Society.find(params[:id])
-    @user = User.find(params[:id])
+    # @user = User.find(params[:id])
   end
 
   def new
     @society = Society.new
   end
 
+
+  # createの画像処理の部分でエラーあり
   def create
     @society = Society.new(society_params)
     @society.owner_id = current_user.id
@@ -37,7 +39,7 @@ class Public::SocietiesController < ApplicationController
   private
   
   def society_params
-    params.require(:society).permit(:name, :introduction, :group_image, :latitude, :longitude)
+    params.require(:society).permit(:title, :introduction, :society_image, :latitude, :longitude)
   end
 
   def ensure_correct_user
