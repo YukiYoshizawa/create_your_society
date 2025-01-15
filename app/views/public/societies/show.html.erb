@@ -1,1 +1,15 @@
-<h1>society/show</h1>
+<h1><%= @society.title %></h1>
+<%=@society.introduction %>
+
+オーナー
+<%= @society.owner.name %>
+
+メンバー
+
+<% if @society.users.blank? %>
+  参加しているメンバーはまだいません...
+<% else %>
+  <% @society.users.each do |user| %>
+    <%= user.name %>
+  <% end %>
+<% end %>
