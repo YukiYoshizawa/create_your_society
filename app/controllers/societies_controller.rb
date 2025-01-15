@@ -1,2 +1,0 @@
-class SocietiesController < ApplicationController
-end

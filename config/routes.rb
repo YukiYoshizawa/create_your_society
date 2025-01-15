@@ -16,11 +16,11 @@ Rails.application.routes.draw do
 
   scope module: :public do
     root to: "homes#top"
-
+    resources :societies, only: [:new, :index, :show, :create, :edit, :update, :destroy]
   end
 
   namespace :admin do
-
+    resources :societies, only: [:new, :index, :show, :create, :edit, :update, :destroy]
   end
 end
 
