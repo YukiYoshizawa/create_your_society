@@ -6,6 +6,7 @@ class Public::SocietiesController < ApplicationController
 
   def show
     @society = Society.find(params[:id])
+    @society_comment = SocietyComment.new
     # @user = User.find(params[:id])
   end
 
@@ -14,7 +15,6 @@ class Public::SocietiesController < ApplicationController
   end
 
 
-  # createの画像処理の部分でエラーあり
   def create
     @society = Society.new(society_params)
     @society.owner_id = current_user.id
