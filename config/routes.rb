@@ -18,14 +18,14 @@ Rails.application.routes.draw do
     root to: "homes#top"
     resources :societies, only: [:new, :index, :show, :create, :edit, :update, :destroy] do
       resource :membership, only: [:create, :destroy]
-      resources :book_comments, only: [:create, :destroy]
+      resources :society_comments, only: [:create, :destroy]
     end
   end
 
   namespace :admin do
     resources :societies, only: [:new, :index, :show, :create, :edit, :update, :destroy] do
       resource :membership, only: [:create, :destroy]
-      resources :book_comments, only: [:create, :destroy]
+      resources :society_comments, only: [:create, :destroy]
     end
   end
 end

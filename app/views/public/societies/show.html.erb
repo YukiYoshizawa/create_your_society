@@ -32,3 +32,20 @@
     <%= link_to "参加する", society_membership_path(@society), method: :post%>
   <% end %>
 <% end %>
+
+[コメントフォーム]
+<%= form_with model: [@society, @society_comment] do |f| %>
+  <%= f.text_area :comment, rows:'5', placeholder: "ソサエティーへのメッセージ", class: "w-100" %>
+  <%= f.submit "送信" %>
+<% end %>
+
+[コメント一覧]
+<% @society.society_comments.each do |society_comment| %>
+ <%= society_comment.comment %>
+ 投稿者[
+ <%= society_comment.user.name %>
+ ]
+  <% if society_comment.user == current_user %>
+    <%= link_to "Destroy", society_society_comment_path(@society, society_comment), method: :delete, class: "btn btn-sm btn-danger float-end" %>
+  <% end %>
+<% end %>
