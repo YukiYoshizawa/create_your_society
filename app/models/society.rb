@@ -2,6 +2,8 @@ class Society < ApplicationRecord
   has_many :user_societies, dependent: :destroy
   belongs_to :owner, class_name: 'User'
   has_many :users, through: :user_societies
+  has_many :society_comments, dependent: :destroy
+
 
   validates :title, presence: true
   validates :introduction, presence: true
