@@ -1,11 +1,21 @@
 <h1><%= @society.title %></h1>
+<% if @society.society_image.attached? %>
+  <%= image_tag @society.society_image, alt: "ソサエティ画像", size:'200x200' %>
+<% else %>
+  <%= image_tag "no-image.png", size: '200x200' %>
+<% end %>
 <%=@society.introduction %>
 
 オーナー
 <%= @society.owner.name %>
 
-メンバー
+編集・削除ボタン
+<% if current_user == @society.owner %>
+  <%= link_to "編集", edit_society_path(@society.id) %>
+  <%= link_to "削除", society_path(@society.id), method: :delete %>
+<% end %>
 
+メンバー
 <% if @society.users.blank? %>
   参加しているメンバーはまだいません...
 <% else %>

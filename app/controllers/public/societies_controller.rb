@@ -26,14 +26,22 @@ class Public::SocietiesController < ApplicationController
   end
 
   def edit
+    @society = Society.find(params[:id])
   end
 
   def update
+    @society = Society.find(params[:id])
     if @society.update(society_params)
       redirect_to society_path(@society.id)
     else
       render "edit"
     end
+  end
+
+  def destroy
+    society = Society.find(params[:id])
+    society.destroy
+    redirect_to root_path
   end
 
   private
