@@ -13,3 +13,12 @@
     <%= user.name %>
   <% end %>
 <% end %>
+
+[参加ボタンなど]
+<% if user_signed_in? %>
+  <% if @society.user_societies.exists?(user_id: current_user.id) %>
+    <%= link_to "脱退する",  society_membership_path(@society), method: :delete %>
+  <% else %>
+    <%= link_to "参加する", society_membership_path(@society), method: :post%>
+  <% end %>
+<% end %>
