@@ -1,0 +1,4 @@
+<h1>Homes/Top</h1>
+<% @societies.each do |society| %>
+  <%= link_to society.title, society_path(society.id) %>
+<% end %>
