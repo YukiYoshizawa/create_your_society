@@ -1,0 +1,51 @@
+<h1><%= @society.title %></h1>
+<% if @society.society_image.attached? %>
+  <%= image_tag @society.society_image, alt: "ソサエティ画像", size:'200x200' %>
+<% else %>
+  <%= image_tag "no-image.png", size: '200x200' %>
+<% end %>
+<%=@society.introduction %>
+
+オーナー
+<%= @society.owner.name %>
+
+編集・削除ボタン
+<% if current_user == @society.owner %>
+  <%= link_to "編集", edit_society_path(@society.id) %>
+  <%= link_to "削除", society_path(@society.id), method: :delete %>
+<% end %>
+
+メンバー
+<% if @society.users.blank? %>
+  参加しているメンバーはまだいません...
+<% else %>
+  <% @society.users.each do |user| %>
+    <%= user.name %>
+  <% end %>
+<% end %>
+
+[参加ボタンなど]
+<% if user_signed_in? %>
+  <% if @society.user_societies.exists?(user_id: current_user.id) %>
+    <%= link_to "脱退する",  society_membership_path(@society), method: :delete %>
+  <% else %>
+    <%= link_to "参加する", society_membership_path(@society), method: :post%>
+  <% end %>
+<% end %>
+
+[コメントフォーム]
+<%= form_with model: [@society, @society_comment] do |f| %>
+  <%= f.text_area :comment, rows:'5', placeholder: "ソサエティーへのメッセージ", class: "w-100" %>
+  <%= f.submit "送信" %>
+<% end %>
+
+[コメント一覧]
+<% @society.society_comments.each do |society_comment| %>
+ <%= society_comment.comment %>
+ 投稿者[
+ <%= society_comment.user.name %>
+ ]
+  <% if society_comment.user == current_user %>
+    <%= link_to "Destroy", society_society_comment_path(@society, society_comment), method: :delete, class: "btn btn-sm btn-danger float-end" %>
+  <% end %>
+<% end %>

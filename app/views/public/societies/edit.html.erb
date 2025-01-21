@@ -1,0 +1,13 @@
+<h3>Edit Society</h3>
+<%= form_with model: @society, local: true do |f| %>
+  <%= f.label :ソサエティ名 %>
+  <%= f.text_field :title, class: 'form-control' %>
+
+    <%= f.label :紹介文 %>
+    <%= f.text_area :introduction, class: 'form-control' %>
+
+    <%= f.label :ソサエティ画像 %>
+    <%= f.file_field :society_image, class: "form-control-file" , accept: "image/*" %>
+
+    <%= f.submit class: 'btn btn-info' %>
+<% end %>
