@@ -16,8 +16,14 @@
         <li>
           <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
         </li>
+         <li>
+          <%=link_to "マイページ",users_my_page_path %> 
+        </li>
         <li>
           <%=link_to "ソサエティを作成する",new_society_path %> 
+        </li>
+        <li>
+          こんにちは<%= current_user.name %>さん
         </li>
       <% else %>
         <li>
