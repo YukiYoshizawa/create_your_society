@@ -16,8 +16,8 @@
 <% end %>
 
 メンバー
-<% if @society.users.blank? %>
-  参加しているメンバーはまだいません...
+<% if @users_without_owner.blank? %>
+  オーナー以外で参加しているメンバーはまだいません...
 <% else %>
   <% @society.users.each do |user| %>
     <%= user.name %>
@@ -27,7 +27,9 @@
 [参加ボタンなど]
 <% if user_signed_in? %>
   <% if @society.user_societies.exists?(user_id: current_user.id) %>
-    <%= link_to "脱退する",  society_membership_path(@society), method: :delete %>
+    <% if current_user.id != @society.owner_id %>
+      <%= link_to "脱退する",  society_membership_path(@society), method: :delete %>
+    <% end %>
   <% else %>
     <%= link_to "参加する", society_membership_path(@society), method: :post%>
   <% end %>

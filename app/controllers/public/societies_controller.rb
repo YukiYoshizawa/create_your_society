@@ -7,7 +7,9 @@ class Public::SocietiesController < ApplicationController
   def show
     @society = Society.find(params[:id])
     @society_comment = SocietyComment.new
-    # @user = User.find(params[:id])
+    
+    owner_id = @society.owner_id
+    @users_without_owner = User.joins(:user_societies).where.not(id: owner_id)
   end
 
   def new
@@ -19,6 +21,8 @@ class Public::SocietiesController < ApplicationController
     @society = Society.new(society_params)
     @society.owner_id = current_user.id
     if @society.save
+      user = current_user
+      @society.users << user
       redirect_to society_path(@society.id)
     else
       render 'new'
