@@ -26,6 +26,10 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    root to: "homes#top"
+    get "users/index"=> "users/index"
+    get "users/information/edit"=>"users#edit"
+    patch "users/information"=>"users#update"
     resources :societies, only: [:new, :index, :show, :create, :edit, :update, :destroy] do
       resource :membership, only: [:create, :destroy]
       resources :society_comments, only: [:create, :destroy]
