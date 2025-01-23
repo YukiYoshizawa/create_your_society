@@ -1,1 +1,5 @@
 <h1>admin/users/index</h1> 
+
+<% @users.each do |user| %>
+  <%= link_to user.name, admin_users_show_path(user.id) %>
+<% end %>

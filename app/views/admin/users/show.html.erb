@@ -1,0 +1,18 @@
+<h1>admin/users/show</h1>
+<h1>これは管理者画面です</h1>
+<%= @user.name %>
+さんのマイページ
+
+[このアカウントは
+<% if @user.is_active == true %>
+  有効です]
+<% else %>
+  無効です]
+<% end %>
+
+<%= link_to "編集", admin_users_edit_path(@user.id) %>
+
+<p>参加しているソサエティー</p>
+<% @societies.each do |society| %>
+  <%= link_to society.title, admin_society_path(society.id) %>
+<% end %>
