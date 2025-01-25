@@ -1,4 +1,5 @@
 class Admin::SocietiesController < ApplicationController
+  before_action :authenticate_admin!
 
   def index
     @societies = Society.all
