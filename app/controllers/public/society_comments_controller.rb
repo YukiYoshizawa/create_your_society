@@ -1,4 +1,5 @@
 class Public::SocietyCommentsController < ApplicationController
+  before_action :authenticate_user!
   # 一旦送信と削除機能を作成。編集機能は後々追加予定
   def create
     society = Society.find(params[:society_id])

@@ -1,4 +1,5 @@
 class Public::SocietiesController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   def index
     @societies = Society.all
     @user = User.find(current_user.id)

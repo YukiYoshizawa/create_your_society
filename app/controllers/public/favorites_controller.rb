@@ -1,4 +1,6 @@
 class Public::FavoritesController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     society = Society.find(params[:society_id])
     favorite = current_user.favorites.new(society_id: society.id)
