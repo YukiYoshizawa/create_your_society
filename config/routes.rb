@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     patch "users/information"=>"users#update"
     get "users/favorites_society"=>"users#fav_show"
     resources :societies, only: [:new, :index, :show, :create, :edit, :update, :destroy] do
+      resources :schedules
       resource :membership, only: [:create, :destroy]
       resources :society_comments, only: [:create, :destroy]
       resource :favorites, only: [:create, :destroy]

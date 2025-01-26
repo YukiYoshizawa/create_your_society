@@ -4,6 +4,7 @@ class Society < ApplicationRecord
   has_many :users, through: :user_societies
   has_many :society_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :schedules, dependent: :destroy
 
 
   validates :title, presence: true

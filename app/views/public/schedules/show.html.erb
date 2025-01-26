@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+<div class="show">
+<p>
+  <strong>タイトル</strong>
+  <%= @schedule.title %>
+</p>
+
+<p>
+  <strong>内容</strong>
+  <%= @schedule.content %>
+</p>
+
+<p>
+  <strong>日時</strong>
+  <%= @schedule.start_time.strftime("%m-%d") %>
+</p>
+
+<%= link_to '編集', edit_society_schedule_path(@schedule.society_id, @schedule.id) %>
+<%= link_to '消去',society_schedule_path(@schedule.society_id, @schedule.id), method: :delete, data: { confirm: '本当に削除しますか?' } %>
+<%= link_to '戻る', society_schedules_path %>
+</div>
