@@ -24,4 +24,6 @@ class Society < ApplicationRecord
       .where(favorites: { user_id: user.id }) # 3. ユーザーがいいねしたレコードを絞り込み
       .order(created_at: :desc) # 4. 投稿を作成日時の降順でソート
   end
+
+  
 end

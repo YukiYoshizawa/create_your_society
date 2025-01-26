@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get "users/information/edit"=>"users#edit"
     patch "users/information"=>"users#update"
     get "users/favorites_society"=>"users#fav_show"
+    get "guest_societies/:id"=>"societies#guest_show", as: 'societies_guest'
     resources :societies, only: [:new, :index, :show, :create, :edit, :update, :destroy] do
       resources :schedules
       resource :membership, only: [:create, :destroy]

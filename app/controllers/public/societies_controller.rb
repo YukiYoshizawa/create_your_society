@@ -11,6 +11,14 @@ class Public::SocietiesController < ApplicationController
     
     owner_id = @society.owner_id
     @users_without_owner = User.joins(:user_societies).where.not(id: owner_id)
+    @user_societies = current_user.societies
+    unless @user_societies.include?(@society)
+        redirect_to societies_guest_path(@society.id)
+    end
+  end
+
+  def guest_show
+
   end
 
   def new

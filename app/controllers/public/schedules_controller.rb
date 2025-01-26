@@ -1,8 +1,13 @@
 class Public::SchedulesController < ApplicationController
   before_action :authenticate_user!
   def index
-    @schedules = Schedule.all
+    @society = Society.find(params[:society_id])
+    @schedules = Schedule.where(society_id: @society.id)
     @schedule = Schedule.new
+    @user_societies = current_user.societies
+    unless @user_societies.include?(@society)
+        redirect_to society_path(@society.id), notice:"カレンダーは加入メンバーのみが閲覧できます"
+    end
   end
 
   def new

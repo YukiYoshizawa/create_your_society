@@ -6,13 +6,20 @@
 </p>
 
 <p>
+  <strong>製作者</strong>
+  <%= @schedule.user.name %>
+  さん
+</p>
+
+
+<p>
   <strong>内容</strong>
   <%= @schedule.content %>
 </p>
 
 <p>
   <strong>日時</strong>
-  <%= @schedule.start_time.strftime("%m-%d") %>
+  <%= @schedule.start_time.strftime("%Y年%m月%d日%H時%M分") %>
 </p>
 
 <%= link_to '編集', edit_society_schedule_path(@schedule.society_id, @schedule.id) %>
