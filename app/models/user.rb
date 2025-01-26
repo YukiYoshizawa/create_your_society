@@ -6,6 +6,10 @@ class User < ApplicationRecord
   
 
 has_many :user_societies, dependent: :destroy
+has_many :societies, through: :user_societies
 has_many :society_comments, dependent: :destroy
+has_many :favorites, dependent: :destroy
+
+
 
 end

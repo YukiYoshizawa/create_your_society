@@ -1,4 +1,5 @@
 class Public::SocietiesController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   def index
     @societies = Society.all
     @user = User.find(current_user.id)
@@ -7,7 +8,9 @@ class Public::SocietiesController < ApplicationController
   def show
     @society = Society.find(params[:id])
     @society_comment = SocietyComment.new
-    # @user = User.find(params[:id])
+    
+    owner_id = @society.owner_id
+    @users_without_owner = User.joins(:user_societies).where.not(id: owner_id)
   end
 
   def new
@@ -19,6 +22,8 @@ class Public::SocietiesController < ApplicationController
     @society = Society.new(society_params)
     @society.owner_id = current_user.id
     if @society.save
+      user = current_user
+      @society.users << user
       redirect_to society_path(@society.id)
     else
       render 'new'
@@ -32,7 +37,7 @@ class Public::SocietiesController < ApplicationController
   def update
     @society = Society.find(params[:id])
     if @society.update(society_params)
-      redirect_to society_path(@society.id)
+      redirect_to admin_society_path(@society.id)
     else
       render "edit"
     end
@@ -41,7 +46,7 @@ class Public::SocietiesController < ApplicationController
   def destroy
     society = Society.find(params[:id])
     society.destroy
-    redirect_to root_path
+    redirect_to admin_root_path
   end
 
   private

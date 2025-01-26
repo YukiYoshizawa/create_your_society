@@ -1,3 +1,4 @@
+<h1>※これは管理者画面です</h1>
 <h1><%= @society.title %></h1>
 <% if @society.society_image.attached? %>
   <%= image_tag @society.society_image, alt: "ソサエティ画像", size:'200x200' %>
@@ -10,10 +11,8 @@
 <%= @society.owner.name %>
 
 編集・削除ボタン
-<% if current_user == @society.owner %>
-  <%= link_to "編集", edit_society_path(@society.id) %>
-  <%= link_to "削除", society_path(@society.id), method: :delete %>
-<% end %>
+  <%= link_to "編集",  edit_admin_society_path(@society.id) %>
+  <%= link_to "削除", admin_society_path(@society.id), method: :delete %>
 
 メンバー
 <% if @users_without_owner.blank? %>
@@ -24,8 +23,8 @@
   <% end %>
 <% end %>
 
-<% if user_signed_in? %>
 [参加ボタンなど]
+<% if user_signed_in? %>
   <% if @society.user_societies.exists?(user_id: current_user.id) %>
     <% if current_user.id != @society.owner_id %>
       <%= link_to "脱退する",  society_membership_path(@society), method: :delete %>
@@ -33,30 +32,12 @@
   <% else %>
     <%= link_to "参加する", society_membership_path(@society), method: :post%>
   <% end %>
+<% end %>
 
-
-<%# <%= render "favorites/btn", society: @society %> 
-
-[いいねボタン]
-  <% if @society.favorited_by?(current_user) %>
-    <%= link_to society_favorites_path(@society), method: :delete do %>
-      <i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
-      <%= @society.favorites.count %> いいね
-    <% end %>
-  <% else %>
-    <%= link_to society_favorites_path(@society), method: :post do %>
-      <i class="fas fa-heart" aria-hidden="true"></i>
-      <%= @society.favorites.count %> いいね
-    <% end %>
-  <% end %>
-
-
-
-  [コメントフォーム]
-  <%= form_with model: [@society, @society_comment] do |f| %>
-    <%= f.text_area :comment, rows:'5', placeholder: "ソサエティーへのメッセージ", class: "w-100" %>
-    <%= f.submit "送信" %>
-  <% end %>
+[コメントフォーム]
+<%= form_with model: [@society, @society_comment] do |f| %>
+  <%= f.text_area :comment, rows:'5', placeholder: "ソサエティーへのメッセージ", class: "w-100" %>
+  <%= f.submit "送信" %>
 <% end %>
 
 [コメント一覧]
