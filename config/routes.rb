@@ -19,9 +19,11 @@ Rails.application.routes.draw do
     get "users/my_page"=>"users#show"
     get "users/information/edit"=>"users#edit"
     patch "users/information"=>"users#update"
+    get "users/favorites_society"=>"users#fav_show"
     resources :societies, only: [:new, :index, :show, :create, :edit, :update, :destroy] do
       resource :membership, only: [:create, :destroy]
       resources :society_comments, only: [:create, :destroy]
+      resource :favorites, only: [:create, :destroy]
     end
   end
 
@@ -34,6 +36,7 @@ Rails.application.routes.draw do
     resources :societies, only: [:new, :index, :show, :create, :edit, :update, :destroy] do
       resource :membership, only: [:create, :destroy]
       resources :society_comments, only: [:create, :destroy]
+      resource :favorites, only: [:create, :destroy]
     end
   end
 end

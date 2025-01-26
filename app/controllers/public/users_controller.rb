@@ -5,7 +5,17 @@ class Public::UsersController < ApplicationController
   def show
     @user = current_user
     @societies = @user.societies
+    @favorites = Favorite.where(user_id: current_user.id)
+  end
 
+  def fav_show
+    # @user = current_user
+    # @favorites = Favorite.where(user_id: current_user.id)
+    # @favoriets.each do |favorite|
+    #   @society = Society.find_by()
+    # end
+
+    @liked_societies = Society.liked_societies(current_user)
   end
 
   def edit

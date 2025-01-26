@@ -35,6 +35,21 @@
   <% end %>
 <% end %>
 
+[いいねボタン]
+<%# <%= render "favorites/btn", society: @society %> 
+
+<% if @society.favorited_by?(current_user) %>
+  <%= link_to society_favorites_path(@society), method: :delete do %>
+    <i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
+    <%= @society.favorites.count %> いいね
+  <% end %>
+<% else %>
+  <%= link_to society_favorites_path(@society), method: :post do %>
+    <i class="fas fa-heart" aria-hidden="true"></i>
+    <%= @society.favorites.count %> いいね
+  <% end %>
+<% end %>
+
 [コメントフォーム]
 <%= form_with model: [@society, @society_comment] do |f| %>
   <%= f.text_area :comment, rows:'5', placeholder: "ソサエティーへのメッセージ", class: "w-100" %>
