@@ -1,5 +1,5 @@
 class Public::SchedulesController < ApplicationController
-
+  before_action :authenticate_user!
   def index
     @schedules = Schedule.all
     @schedule = Schedule.new
@@ -19,17 +19,13 @@ class Public::SchedulesController < ApplicationController
     @schedule.user_id = current_user.id
 
     if @schedule.save
-      puts @schedule.errors.full_messages
-      flash[:notice] = "successfully"
+      flash[:notice] = "スケジュールを作成しました。"
       redirect_to society_schedules_path
     else
-      puts @schedule.errors.full_messages
-      flash[:notice] = "error"
+      flash[:notice] = "スケジュールの作成に失敗しました。"
       redirect_to society_schedules_path
     end
 
-    # Schedule.create(schedule_params)
-    # redirect_to society_schedules_path
   end
 
   def destroy
