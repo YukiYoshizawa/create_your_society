@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       resources :schedules
       resource :membership, only: [:create, :destroy]
       resources :society_comments, only: [:create, :destroy]
+      get 'society_comments/:id/maps', to: 'maps#show', as: 'comment_map'
       resource :favorites, only: [:create, :destroy]
     end
   end

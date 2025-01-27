@@ -6,21 +6,24 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <script src="https://kit.fontawesome.com/ed90dd2909.js" crossorigin="anonymous"></script>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <header>
-
-      <% if admin_signed_in? %>
-        <%= render "layouts/admin_header" %>
-      <% else %>
-        <%= render "layouts/user_header" %>
-      <% end %>
-      <%= link_to "ロゴ", root_path %>
+    <header class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+      <%= link_to "ロゴ", root_path, class: "navbar-brand" %>
+      <div class="collapse navbar-collapse">
+        <% if admin_signed_in? %>
+          <%= render "layouts/admin_header" %>
+        <% else %>
+          <%= render "layouts/user_header" %>
+        <% end %>
+      </div>
     </header>
-    <%= yield %>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-jpostal-ja@2.14.45/jquery.jpostal.min.js"></script>
+    <div class="container">
+      <%= yield %>
+    </div>
   </body>
 </html>

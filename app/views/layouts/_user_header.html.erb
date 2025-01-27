@@ -1,24 +1,30 @@
 <% if user_signed_in? %>
-  <li>
-    <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-  </li>
-    <li>
-    <%=link_to "マイページ",users_my_page_path %> 
-  </li>
-  <li>
-    <%=link_to "ソサエティを作成する",new_society_path %> 
-  </li>
-  <li>
-    こんにちは<%= current_user.name %>さん
-  </li>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link"  %>
+      </li>
+      <li class="nav-item active">
+        <%=link_to "マイページ",users_my_page_path, class: "nav-link"  %> 
+      </li>
+      <li class="nav-item active">
+        <%=link_to "ソサエティを作成する",new_society_path, class: "nav-link"  %> 
+      </li>
+      <li class="nav-item active">
+        <p class="nav-link">こんにちは<%= current_user.name %>さん</p>
+      </li>
+    </ul>
 <% else %>
-  <li>
-    <%= link_to "新規登録", new_user_registration_path %>
-  </li>
-  <li>
-    <%= link_to "ログイン", new_user_session_path %>
-  </li>
-  <li>
-    <%=link_to "ソサエティを作成する",new_user_registration_path %> 
-  </li>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <%= link_to "新規登録", new_user_registration_path, class: "nav-link"  %>
+      </li>
+      <li class="nav-item active">
+        <%= link_to "ログイン", new_user_session_path, class: "nav-link"  %>
+      </li>
+      <li class="nav-item active">
+        <%=link_to "ソサエティを作成する",new_user_registration_path, class: "nav-link"  %> 
+      </li>
+    </ul>
+  </div>
 <% end %>
