@@ -9,11 +9,7 @@ class Society < ApplicationRecord
 
   validates :title, presence: true
   validates :introduction, presence: true
-  validates :address, presence: true
   has_one_attached :society_image
-
-  geocoded_by :address
-  after_validation :geocode
   
   def is_owned_by?(user)
     owner.id == user.id
