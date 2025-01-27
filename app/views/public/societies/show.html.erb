@@ -1,61 +1,59 @@
-<h1><%= @society.title %></h1>
-<p id="notice"><%= notice %></p>
-<% if @society.society_image.attached? %>
-  <%= image_tag @society.society_image, alt: "ソサエティ画像", size:'200x200' %>
-<% else %>
-  <%= image_tag "no-image.png", size: '200x200' %>
-<% end %>
-<%=@society.introduction %>
-
-オーナー
-<%= @society.owner.name %>
-
-編集・削除ボタン
-<% if current_user == @society.owner %>
-  <%= link_to "編集", edit_society_path(@society.id) %>
-  <%= link_to "削除", society_path(@society.id), method: :delete, data: { confirm: 'メッセージ履歴なども全て削除されます。本当にソサエティを削除しますか?' }  %>
-<% end %>
-
-メンバー
-<% if @users_without_owner.blank? %>
-  オーナー以外で参加しているメンバーはまだいません...
-<% else %>
-  <% @society.users.each do |user| %>
-    <%= user.name %>
-  <% end %>
-<% end %>
-
-<% if user_signed_in? %>
-[参加ボタンなど]
-  <% if @society.user_societies.exists?(user_id: current_user.id) %>
-    <% if current_user.id != @society.owner_id %>
-      <%= link_to "脱退する",  society_membership_path(@society), method: :delete, data: { confirm: '本当に脱退しますか?' }  %>
+ <p id="notice"><%= notice %></p>
+ <h1><%= @society.title.truncate(20) %></h1>
+<div class="row">
+  <div class="col-3">
+    <% if @society.society_image.attached? %>
+      <%= image_tag @society.society_image, alt: "ソサエティ画像", size:'200x200' %>
+    <% else %>
+      <%= image_tag "no-image.png", size: '200x200' %>
     <% end %>
-  <% else %>
-    <%= link_to "参加する", society_membership_path(@society), method: :post%>
-  <% end %>
+  </div>
+  <div class="col-5 mt-3">
+    <%=@society.introduction %>
+  </div>
 
+  <div class="col-4">
+    <% if user_signed_in? %>
+      <% if @society.favorited_by?(current_user) %>
+        <%= link_to society_favorites_path(@society), method: :delete do %>
+          <i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
+          <%= @society.favorites.count %> いいね
+        <% end %>
+      <% else %>
+        <%= link_to society_favorites_path(@society), method: :post do %>
+          <i class="fas fa-heart" aria-hidden="true"></i>
+          <%= @society.favorites.count %> いいね
+        <% end %>
+      <% end %>
 
-  <%# <%= render "favorites/btn", society: @society %> 
+      編集・削除ボタン
+      <% if current_user == @society.owner %>
+        <%= link_to "編集", edit_society_path(@society.id) %>
+        <%= link_to "削除", society_path(@society.id), method: :delete, data: { confirm: 'メッセージ履歴なども全て削除されます。本当にソサエティを削除しますか?' }  %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
 
-  [いいねボタン]
-    <% if @society.favorited_by?(current_user) %>
-      <%= link_to society_favorites_path(@society), method: :delete do %>
-        <i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
-        <%= @society.favorites.count %> いいね
+<div class="row">
+  <% if user_signed_in? %>
+    [参加ボタンなど]
+    <% if @society.user_societies.exists?(user_id: current_user.id) %>
+      <% if current_user.id != @society.owner_id %>
+        <%= link_to "脱退する",  society_membership_path(@society), method: :delete, data: { confirm: '本当に脱退しますか?' }  %>
       <% end %>
     <% else %>
-      <%= link_to society_favorites_path(@society), method: :post do %>
-        <i class="fas fa-heart" aria-hidden="true"></i>
-        <%= @society.favorites.count %> いいね
-      <% end %>
+      <%= link_to "参加する", society_membership_path(@society), method: :post%>
     <% end %>
 
-    [カレンダー]
-  <%= link_to "カレンダー", society_schedules_path(@society.id) %>
+      [カレンダー]
+    <%= link_to "カレンダー", society_schedules_path(@society.id) %>
+  <% end %>
+</div>
 
+<% if user_signed_in? %>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-9">
       <div>
         [コメント一覧]
         <% @society.society_comments.each do |society_comment| %>
@@ -71,14 +69,25 @@
         [コメントフォーム]
         <%= form_with model: [@society, @society_comment] do |f| %>
           <%= f.text_area :comment, rows:'5', placeholder: "ソサエティーへのメッセージ", class: "form-control my-2" %>
-          <%= f.text_field :zipcode, placeholder: "yuubinbangou", id: "zipcode", class: "form-control my-2" %>
+          <%= f.text_field :zipcode, placeholder: "郵便番号", id: "zipcode", class: "form-control my-2" %>
           <%= f.text_field :address, placeholder: "住所", id: "address", class: "form-control my-2" %>
           <%# 地図機能実装目処がつくまで保留 %>
           <%= f.submit "送信", class: "btn btn-primary my-2" %>
         <% end %>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
+      オーナー
+      <%= @society.owner.name %>
+
+      メンバー
+      <% if @users_without_owner.blank? %>
+      オーナー以外で参加しているメンバーはまだいません...
+      <% else %>
+        <% @society.users.each do |user| %>
+          <%= user.name %>
+        <% end %>
+      <% end %>
     </div>
   </div>
 <% end %>

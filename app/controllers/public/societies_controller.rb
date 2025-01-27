@@ -47,7 +47,7 @@ class Public::SocietiesController < ApplicationController
   def update
     @society = Society.find(params[:id])
     if @society.update(society_params)
-      redirect_to admin_society_path(@society.id)
+      redirect_to society_path(@society.id)
     else
       render "edit"
     end
