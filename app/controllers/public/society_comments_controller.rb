@@ -18,6 +18,6 @@ class Public::SocietyCommentsController < ApplicationController
   private
   
   def society_comment_params
-    params.require(:society_comment).permit(:comment, :society_comment_image, :latitude, :longitude)
+    params.require(:society_comment).permit(:comment, :society_comment_image, :address, :latitude, :longitude)
   end
 end

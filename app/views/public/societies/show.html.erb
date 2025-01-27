@@ -59,6 +59,8 @@
   [コメントフォーム]
   <%= form_with model: [@society, @society_comment] do |f| %>
     <%= f.text_area :comment, rows:'5', placeholder: "ソサエティーへのメッセージ", class: "w-100" %>
+    <%# <%= f.text_field :address, class: "form-control", placeholder: "住所" %> 
+    <%# 地図機能実装目処がつくまで保留 %>
     <%= f.submit "送信" %>
   <% end %>
 <% end %>
@@ -73,3 +75,7 @@
     <%= link_to "Destroy", society_society_comment_path(@society, society_comment), method: :delete, class: "btn btn-sm btn-danger float-end" %>
   <% end %>
 <% end %>
+
+<%# <%= javascript_pack_tag "jpostal",  'data-turbolinks-track': 'reload' %> 
+<%# 地図機能実装目処がつくまで保留 %>
+<%# 7.住所の自動入力機能を追加する の部分でエラーが発生中！ %>
