@@ -13,7 +13,7 @@
 編集・削除ボタン
 <% if current_user == @society.owner %>
   <%= link_to "編集", edit_society_path(@society.id) %>
-  <%= link_to "削除", society_path(@society.id), method: :delete %>
+  <%= link_to "削除", society_path(@society.id), method: :delete, data: { confirm: 'メッセージ履歴なども全て削除されます。本当にソサエティを削除しますか?' }  %>
 <% end %>
 
 メンバー
@@ -29,7 +29,7 @@
 [参加ボタンなど]
   <% if @society.user_societies.exists?(user_id: current_user.id) %>
     <% if current_user.id != @society.owner_id %>
-      <%= link_to "脱退する",  society_membership_path(@society), method: :delete %>
+      <%= link_to "脱退する",  society_membership_path(@society), method: :delete, data: { confirm: '本当に脱退しますか?' }  %>
     <% end %>
   <% else %>
     <%= link_to "参加する", society_membership_path(@society), method: :post%>
