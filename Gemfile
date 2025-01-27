@@ -65,3 +65,6 @@ end
 gem "net-smtp"
 gem "net-pop"
 gem "net-imap"
+
+gem 'simple_calendar', '~> 2.0' 
+gem 'geocoder' # 追加

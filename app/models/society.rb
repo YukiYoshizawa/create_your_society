@@ -4,11 +4,16 @@ class Society < ApplicationRecord
   has_many :users, through: :user_societies
   has_many :society_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :schedules, dependent: :destroy
 
 
   validates :title, presence: true
   validates :introduction, presence: true
+  validates :address, presence: true
   has_one_attached :society_image
+
+  geocoded_by :address
+  after_validation :geocode
   
   def is_owned_by?(user)
     owner.id == user.id
@@ -23,4 +28,6 @@ class Society < ApplicationRecord
       .where(favorites: { user_id: user.id }) # 3. ユーザーがいいねしたレコードを絞り込み
       .order(created_at: :desc) # 4. 投稿を作成日時の降順でソート
   end
+
+  
 end

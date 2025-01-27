@@ -1,0 +1,36 @@
+<h1>Public::Maps#show</h1>
+<p>Find me in app/views/public/maps/show.html.erb</p>
+
+<div class="container">
+  <div id="map" data-lat="<%= @society_comment.latitude %>" data-lng="<%= @society_comment.longitude %>"></div>
+</div>
+
+<script>
+// ライブラリの読み込み
+let map;
+
+async function initMap() {
+  const { Map } = await google.maps.importLibrary("maps");
+  const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
+
+  const targetMap = document.getElementById("map");
+  const lat = parseFloat(targetMap.dataset.lat);
+  const lng = parseFloat(targetMap.dataset.lng);
+
+  map = new Map(targetMap, {
+    center: { lat: lat, lng: lng }, 
+    zoom: 15,
+    mapTypeControl: false,
+    mapId: "DEMO_MAP_ID"
+  });
+
+  new google.maps.marker.AdvancedMarkerElement ({
+    position: { lat: lat, lng: lng },
+    map
+  });
+}
+
+initMap()
+
+console.log('hello');
+</script>

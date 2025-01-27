@@ -1,4 +1,5 @@
 <h1><%= @society.title %></h1>
+<p id="notice"><%= notice %></p>
 <% if @society.society_image.attached? %>
   <%= image_tag @society.society_image, alt: "ソサエティ画像", size:'200x200' %>
 <% else %>
@@ -12,7 +13,7 @@
 編集・削除ボタン
 <% if current_user == @society.owner %>
   <%= link_to "編集", edit_society_path(@society.id) %>
-  <%= link_to "削除", society_path(@society.id), method: :delete %>
+  <%= link_to "削除", society_path(@society.id), method: :delete, data: { confirm: 'メッセージ履歴なども全て削除されます。本当にソサエティを削除しますか?' }  %>
 <% end %>
 
 メンバー
@@ -28,44 +29,78 @@
 [参加ボタンなど]
   <% if @society.user_societies.exists?(user_id: current_user.id) %>
     <% if current_user.id != @society.owner_id %>
-      <%= link_to "脱退する",  society_membership_path(@society), method: :delete %>
+      <%= link_to "脱退する",  society_membership_path(@society), method: :delete, data: { confirm: '本当に脱退しますか?' }  %>
     <% end %>
   <% else %>
     <%= link_to "参加する", society_membership_path(@society), method: :post%>
   <% end %>
 
 
-<%# <%= render "favorites/btn", society: @society %> 
+  <%# <%= render "favorites/btn", society: @society %> 
 
-[いいねボタン]
-  <% if @society.favorited_by?(current_user) %>
-    <%= link_to society_favorites_path(@society), method: :delete do %>
-      <i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
-      <%= @society.favorites.count %> いいね
+  [いいねボタン]
+    <% if @society.favorited_by?(current_user) %>
+      <%= link_to society_favorites_path(@society), method: :delete do %>
+        <i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
+        <%= @society.favorites.count %> いいね
+      <% end %>
+    <% else %>
+      <%= link_to society_favorites_path(@society), method: :post do %>
+        <i class="fas fa-heart" aria-hidden="true"></i>
+        <%= @society.favorites.count %> いいね
+      <% end %>
     <% end %>
-  <% else %>
-    <%= link_to society_favorites_path(@society), method: :post do %>
-      <i class="fas fa-heart" aria-hidden="true"></i>
-      <%= @society.favorites.count %> いいね
-    <% end %>
-  <% end %>
 
+    [カレンダー]
+  <%= link_to "カレンダー", society_schedules_path(@society.id) %>
 
-
-  [コメントフォーム]
-  <%= form_with model: [@society, @society_comment] do |f| %>
-    <%= f.text_area :comment, rows:'5', placeholder: "ソサエティーへのメッセージ", class: "w-100" %>
-    <%= f.submit "送信" %>
-  <% end %>
+  <div class="row">
+    <div class="col-md-6">
+      <div>
+        [コメント一覧]
+        <% @society.society_comments.each do |society_comment| %>
+          <%= society_comment.comment %>
+          <%= link_to 'map', society_comment_map_path(@society, society_comment) %>
+          投稿者[<%= society_comment.user.name %>]
+          <% if society_comment.user == current_user %>
+            <%= link_to "Destroy", society_society_comment_path(@society, society_comment), method: :delete, class: "btn btn-sm btn-danger float-end" %>
+          <% end %>
+        <% end %>
+      </div>
+      <div>
+        [コメントフォーム]
+        <%= form_with model: [@society, @society_comment] do |f| %>
+          <%= f.text_area :comment, rows:'5', placeholder: "ソサエティーへのメッセージ", class: "form-control my-2" %>
+          <%= f.text_field :zipcode, placeholder: "yuubinbangou", id: "zipcode", class: "form-control my-2" %>
+          <%= f.text_field :address, placeholder: "住所", id: "address", class: "form-control my-2" %>
+          <%# 地図機能実装目処がつくまで保留 %>
+          <%= f.submit "送信", class: "btn btn-primary my-2" %>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-6">
+    </div>
+  </div>
 <% end %>
 
-[コメント一覧]
-<% @society.society_comments.each do |society_comment| %>
- <%= society_comment.comment %>
- 投稿者[
- <%= society_comment.user.name %>
- ]
-  <% if society_comment.user == current_user %>
-    <%= link_to "Destroy", society_society_comment_path(@society, society_comment), method: :delete, class: "btn btn-sm btn-danger float-end" %>
-  <% end %>
+
+
+
+<%# 地図機能実装目処がつくまで保留 %>
+<%# 7.住所の自動入力機能を追加する の部分でエラーが発生中！ %>
+<%#= javascript_pack_tag "jpostal",  'data-turbolinks-track': 'reload' %>
+<% if user_signed_in? %>
+  <script>
+  function jpostal() {
+    $('#zipcode').jpostal({
+      postcode : ['#zipcode'],
+      address : {
+        '#address': '%3%4%5'
+      }
+    });
+  }
+  $(document).on("turbolinks:load", jpostal);
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery-jpostal-ja@2.14.45/jquery.jpostal.min.js"></script>
 <% end %>
