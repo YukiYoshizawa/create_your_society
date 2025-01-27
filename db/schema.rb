@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_01_26_071420) do
+ActiveRecord::Schema.define(version: 2025_01_27_084003) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -59,15 +59,25 @@ ActiveRecord::Schema.define(version: 2025_01_26_071420) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "schedules", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "society_id"
+    t.string "title"
+    t.text "content"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "societies", force: :cascade do |t|
     t.string "title"
     t.text "introduction"
     t.string "image_id"
     t.integer "owner_id"
-    t.decimal "latitude", precision: 10, scale: 6
-    t.decimal "longitude", precision: 10, scale: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "address", default: "", null: false
   end
 
   create_table "society_comments", force: :cascade do |t|
@@ -76,9 +86,10 @@ ActiveRecord::Schema.define(version: 2025_01_26_071420) do
     t.integer "society_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.decimal "latitude", precision: 10, scale: 6
-    t.decimal "longitude", precision: 10, scale: 6
     t.string "image_id"
+    t.string "address", default: "", null: false
+    t.float "latitude", default: 0.0, null: false
+    t.float "longitude", default: 0.0, null: false
   end
 
   create_table "user_societies", force: :cascade do |t|

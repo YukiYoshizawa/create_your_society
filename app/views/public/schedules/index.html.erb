@@ -1,0 +1,67 @@
+<p id="notice"><%= notice %></p>
+
+<div class="toppage">
+  <h1 class="top">カレンダー</h1>
+  <%= link_to "ソサエティに戻る", society_path(@society.id) %>
+  <br>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="schedule">今後の予定一覧</div>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th>タイトル</th>
+              <th>日程</th>
+              <th>製作者</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @schedules.each do |schedule| %>
+              <tr>
+                <td><%= link_to schedule.title , society_schedule_path(schedule.society_id, schedule.id) %></td>
+                <td><%= schedule.start_time.present? ? schedule.start_time.strftime("%Y年%m月%d日%H時%M分") : 'No start time' %></td>
+                <td><%= schedule.user.name %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+
+
+      <%= form_with(model: @schedule, url: society_schedules_path,  method: :post, local: true) do |form| %>
+        <div class="title">
+          <div class="form-tag">タイトル</div>
+          <%= form.text_field :title %>
+        </div>
+
+        <div class="content">
+          <div class="form-tag">内容</div>
+          <%= form.text_area :content, size: " 52 x 6 "%>
+        </div>
+
+        <div class="time">
+          <div class="form-tag">時間</div>
+          <%= form.datetime_select :start_time %>
+        </div>
+
+        <div class="submit">
+            <%= form.submit "決定" %>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="col-md-8">
+    <%= month_calendar events: @schedules do |date, schedules| %>
+      <%= date.day %>
+
+      <% schedules.each do |schedule| %>
+        <div>
+          <%= link_to schedule.title, society_schedule_path(schedule.society_id, schedule.id) %>
+        </div>
+      <% end %>
+    <% end %>
+    </div>
+  </div>
+</div>
