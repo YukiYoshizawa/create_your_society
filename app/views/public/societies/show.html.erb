@@ -73,8 +73,12 @@
         <%= form_with model: [@society, @society_comment] do |f| %>
           <%= f.text_area :comment, rows:'5', placeholder: "ソサエティーへのメッセージ", class: "form-control my-2" %>
           <%= f.file_field :society_comment_image, accept: "image/*" %>
-          <%= f.text_field :zipcode, placeholder: "郵便番号", id: "zipcode", class: "form-control my-2" %>
-          <%= f.text_field :address, placeholder: "住所", id: "address", class: "form-control my-2" %>
+          <div class="tag-area" id="tag-area">
+            
+          </div>
+          <%# <%= f.text_field :zipcode, placeholder: "郵便番号", id: "zipcode", class: "form-control my-2" %> 
+          <%# <%= f.text_field :address, placeholder: "住所", id: "address", class: "form-control my-2" %> 
+          <button class="add-form-btn btn btn-success" id="add-form-btn" type="button">位置を追加</button>
           <%= f.submit "送信", class: "btn btn-primary my-2" %>
         <% end %>
       </div>
@@ -96,6 +100,12 @@
 <% end %>
 
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  console.log(document.getElementById('add-form-btn'));
+  });
+</script>
+
 
 
 <%# 地図機能実装目処がつくまで保留 %>
@@ -103,15 +113,43 @@
 <%#= javascript_pack_tag "jpostal",  'data-turbolinks-track': 'reload' %>
 <% if user_signed_in? %>
   <script>
-  function jpostal() {
-    $('#zipcode').jpostal({
-      postcode : ['#zipcode'],
-      address : {
-        '#address': '%3%4%5'
+  $(function(){
+    const maxForms = 1; // 最大フォーム数
+
+    function buildField(index) {  
+      const html = `
+                    <input placeholder="郵便番号(半角数字 ハイフンなし)" id="zipcode${index}" class="form-control my-2" type="text" maxlength="7" pattern="^[a-zA-Z0-9]+$" name="society_comment[zipcode]">
+                    <input placeholder="住所" id="address${index}" class="form-control my-2" type="text" value="" name="society_comment[address]">
+                    `;
+      return html;
+    }
+    
+    $(".add-form-btn").on("click", function() { 
+      let newIndex = new Date().getTime(); 
+      $(".tag-area").append(buildField(newIndex)); 
+      
+      if($(".tag-area").children().length >= maxForms) {
+        $(".add-form-btn").hide(); // フォームの追加が最大数に達した場合、追加ボタンを非表示にする
       }
+      
+      jpostal(`#zipcode${newIndex}`); 
     });
-  }
-  $(document).on("turbolinks:load", jpostal);
+
+    function jpostal(zipcodeId) {
+      let addressId = `#address${zipcodeId.slice(8)}`;
+      let addressConfig = {};
+      addressConfig[addressId] = '%3%4%5';
+
+      $(zipcodeId).jpostal({
+        postcode : [zipcodeId],
+        address : addressConfig
+      });
+    }
+
+    $(document).on("turbolinks:load", function() {
+      jpostal('#zipcode'); 
+    });
+  });
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery-jpostal-ja@2.14.45/jquery.jpostal.min.js"></script>
