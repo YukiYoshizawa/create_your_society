@@ -8,12 +8,13 @@
         <%=link_to "マイページ",users_my_page_path, class: "nav-link"  %> 
       </li>
       <li class="nav-item active">
-        <%=link_to "ソサエティを作成する",new_society_path, class: "nav-link"  %> 
-      </li>
-      <li class="nav-item active">
         <p class="nav-link">こんにちは<%= current_user.name %>さん</p>
       </li>
+      <li>
+         
+      </li>
     </ul>
+    <%=link_to "ソサエティを作成する",new_society_path, class: "btn btn-outline-info"  %>
 <% else %>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
@@ -23,8 +24,9 @@
         <%= link_to "ログイン", new_user_session_path, class: "nav-link"  %>
       </li>
       <li class="nav-item active">
-        <%=link_to "ソサエティを作成する",new_user_registration_path, class: "nav-link"  %> 
+        
       </li>
     </ul>
+    <%=link_to "ソサエティを作成する",new_user_registration_path, class: "btn btn-outline-info "  %> 
   </div>
 <% end %>

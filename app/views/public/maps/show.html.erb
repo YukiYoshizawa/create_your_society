@@ -1,7 +1,35 @@
-<h1>Public::Maps#show</h1>
-<p>Find me in app/views/public/maps/show.html.erb</p>
+<%= link_to "ソサエティに戻る", society_path(@society.id) %>
+<div class="col-md-10" style= "height: 100%;">
+  <div>
+    <div class="d-flex flex-column-reverse align-items-stretch flex-shrink-0 bg-body-tertiary h-50 overflow-auto">
+      <div class="list-group list-group-flush border-bottom scrollarea">
+        <div class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+          <div class="d-flex w-100 align-items-center justify-content-between">
+            <div class="d-flex w-25  justify-content-between">
+              <%= image_tag @society_comment.user.get_profile_image(100,100) %>
+              <strong class="align-middle"><%= @society_comment.user.name %></strong>
+            </div>
+            <small><%= @society_comment.created_at.to_s(:datetime_jp) %></small>
+          </div>
+          <% if @society_comment.society_comment_image.attached? %> 
+            <%= image_tag @society_comment.society_comment_image, alt: "ソサエティコメント画像", size:'200x200' %>
+          <% end %> 
+          <div class="col-10 mb-1 small">
+            <%= @society_comment.comment %>
+          </div>
+          <% if @society_comment.user == current_user %>
+              <div class="d-flex justify-content-end">
+              <%= link_to "削除", society_society_comment_path(@society, @society_comment), method: :delete, class: "btn btn-sm btn-danger float-end" %>
+              </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<div class="container">
+地図がうまく表示されない場合はリロードしてください。
+<div class="container mb-4">
   <div id="map" data-lat="<%= @society_comment.latitude %>" data-lng="<%= @society_comment.longitude %>"></div>
 </div>
 
@@ -31,6 +59,4 @@ async function initMap() {
 }
 
 initMap()
-
-console.log('hello');
 </script>

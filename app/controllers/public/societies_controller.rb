@@ -10,7 +10,7 @@ class Public::SocietiesController < ApplicationController
     @society_comment = SocietyComment.new
     
     owner_id = @society.owner_id
-    @users_without_owner = User.joins(:user_societies).where.not(id: owner_id)
+    @users_without_owner = @society.users.where.not(id: owner_id)
     if  user_signed_in?
       @user_societies = current_user.societies
       unless @user_societies.include?(@society)
@@ -47,7 +47,7 @@ class Public::SocietiesController < ApplicationController
   def update
     @society = Society.find(params[:id])
     if @society.update(society_params)
-      redirect_to admin_society_path(@society.id)
+      redirect_to society_path(@society.id)
     else
       render "edit"
     end
@@ -56,7 +56,7 @@ class Public::SocietiesController < ApplicationController
   def destroy
     society = Society.find(params[:id])
     society.destroy
-    redirect_to admin_root_path
+    redirect_to root_path
   end
 
   private
