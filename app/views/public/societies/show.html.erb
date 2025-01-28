@@ -1,3 +1,4 @@
+<%= link_to "ソサエティ一覧へ戻る", root_path %>
 <p id="notice"><%= notice %></p>
 <h1><%= @society.title.truncate(20) %></h1>
 <div class="row">
@@ -59,34 +60,37 @@
   <div class="row">
     <div class="col-md-10" style= "height: 100%;">
       <div style="height: 400px;" >
-      <div class="d-flex flex-column-reverse align-items-stretch flex-shrink-0 bg-body-tertiary h-50 overflow-auto" style="min-height: 400px;">
-        <div class="list-group list-group-flush border-bottom scrollarea">
-          <% @society.society_comments.each do |society_comment| %>
-            <div class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-              <div class="d-flex w-100 align-items-center justify-content-between">
-                <strong class="mb-1"><%= society_comment.user.name %></strong>
-                <small><%= society_comment.created_at.to_s(:datetime_jp) %></small>
-              </div>
-              <% if society_comment.society_comment_image.attached? %> 
-                <%= image_tag society_comment.society_comment_image, alt: "ソサエティコメント画像", size:'200x200' %>
-              <% end %> 
-              <div class="col-10 mb-1 small">
-                <%= society_comment.comment %>
-                <% if society_comment.latitude != 0 || society_comment.longitude != 0 %>
-                  <div class="d-flex justify-content-end">
-                  <%= link_to '地図情報', society_comment_map_path(@society, society_comment), class: "pull-right" %>
+        <div class="d-flex flex-column-reverse align-items-stretch flex-shrink-0 bg-body-tertiary h-50 overflow-auto" style="min-height: 400px;">
+          <div class="list-group list-group-flush border-bottom scrollarea">
+            <% @society.society_comments.each do |society_comment| %>
+              <div class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                <div class="d-flex w-100 align-items-center justify-content-between">
+                  <div class="d-flex w-25  justify-content-between">
+                    <%= image_tag society_comment.user.get_profile_image(100,100) %>
+                    <strong class="align-middle"><%= society_comment.user.name %></strong>
                   </div>
+                  <small><%= society_comment.created_at.to_s(:datetime_jp) %></small>
+                </div>
+                <% if society_comment.society_comment_image.attached? %> 
+                  <%= image_tag society_comment.society_comment_image, alt: "ソサエティコメント画像", size:'200x200' %>
+                <% end %> 
+                <div class="col-10 mb-1 small">
+                  <%= society_comment.comment %>
+                  <% if society_comment.latitude != 0 || society_comment.longitude != 0 %>
+                    <div class="d-flex justify-content-end">
+                    <%= link_to '地図情報', society_comment_map_path(@society, society_comment), class: "pull-right" %>
+                    </div>
+                  <% end %>
+                </div>
+                <% if society_comment.user == current_user %>
+                    <div class="d-flex justify-content-end">
+                    <%= link_to "削除", society_society_comment_path(@society, society_comment), method: :delete, class: "btn btn-sm btn-danger float-end" %>
+                    </div>
                 <% end %>
               </div>
-              <% if society_comment.user == current_user %>
-                  <div class="d-flex justify-content-end">
-                  <%= link_to "削除", society_society_comment_path(@society, society_comment), method: :delete, class: "btn btn-sm btn-danger float-end" %>
-                  </div>
-              <% end %>
-            </div>
-          <% end %>
+            <% end %>
+          </div>
         </div>
-      </div>
       </div>
 
       <div class="form">
