@@ -1,38 +1,50 @@
-<h1><%= @society.title %></h1>
 <p id="notice"><%= notice %></p>
-<% if @society.society_image.attached? %>
-  <%= image_tag @society.society_image, alt: "ソサエティ画像", size:'200x200' %>
-<% else %>
-  <%= image_tag "no-image.png", size: '200x200' %>
-<% end %>
-<%=@society.introduction %>
+<h1><%= @society.title.truncate(20) %></h1>
+<div class="row">
+  <div class="col-3">
+    <% if @society.society_image.attached? %> 
+      <%= image_tag @society.society_image, alt: "ソサエティ画像", size:'200x200' %>
+     <% else %> 
+       <%= image_tag "no_image.jpg", size: '200x200' %> 
+     <% end %> 
+  </div>
+  <div class="col-7 mt-3">
+    <%=@society.introduction %>
+  </div>
 
-[オーナー]
-<%= @society.owner.name %>
+  <div class="col-2">
+    <% if user_signed_in? %>
+      <% if @society.favorited_by?(current_user) %>
+        <%= link_to society_favorites_path(@society),  style: "text-decoration:none;",   method: :delete do %>
+          <p style="font-size:30px;">
+            <i class="fa-solid fa-bookmark" style="color: orange; font-size:50px;"></i>
+        <% end %>
+            <%= @society.favorites.count %>
+            </p>
+      <% else %>
+        <%= link_to society_favorites_path(@society), style: "text-decoration:none;", method: :post do %>
+        <p style="font-size:30px;">
+          <i class="fa-regular fa-bookmark" style="font-size:50px;"></i>
+        <% end %>
+          <%= @society.favorites.count %>
+        </p> 
+      <% end %>
 
-<% if user_signed_in? %>
-[参加ボタンなど]
-  <% if @society.user_societies.exists?(user_id: current_user.id) %>
-    <% if current_user.id != @society.owner_id %>
-      <%= link_to "脱退する",  society_membership_path(@society), method: :delete %>
+      <% if current_user == @society.owner %>
+        <p>
+          <%= link_to "編集", edit_society_path(@society.id), class: "btn btn-warning" %>
+          <%= link_to "削除", society_path(@society.id), method: :delete, data: { confirm: 'メッセージ履歴なども全て削除されます。本当にソサエティを削除しますか?' },  class: "btn btn-danger" %>
+        </p>
+      <% end %>
+      <% if @society.user_societies.exists?(user_id: current_user.id) %>
+        <p>
+        <% if current_user.id != @society.owner_id %>
+          <%= link_to "脱退する",  society_membership_path(@society), method: :delete, data: { confirm: '本当に脱退しますか?' }, class: "btn btn-secondary"  %>
+        <% end %>
+      <% else %>
+        <%= link_to "参加する", society_membership_path(@society), method: :post, data: { confirm: 'このソサエティに参加しますか？' }, class: "btn btn-info"%>
+      <% end %>
+        </p>
     <% end %>
-  <% else %>
-    <%= link_to "参加する", society_membership_path(@society), method: :post%>
-  <% end %>
-
-
-<%# <%= render "favorites/btn", society: @society %> 
-
-[いいねボタン]
-  <% if @society.favorited_by?(current_user) %>
-    <%= link_to society_favorites_path(@society), method: :delete do %>
-      <i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
-      <%= @society.favorites.count %> いいね
-    <% end %>
-  <% else %>
-    <%= link_to society_favorites_path(@society), method: :post do %>
-      <i class="fas fa-heart" aria-hidden="true"></i>
-      <%= @society.favorites.count %> いいね
-    <% end %>
-  <% end %>
-<% end %>
+  </div>
+</div>
