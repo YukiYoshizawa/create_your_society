@@ -56,7 +56,7 @@ class Public::SocietiesController < ApplicationController
   def destroy
     society = Society.find(params[:id])
     society.destroy
-    redirect_to admin_root_path
+    redirect_to root_path
   end
 
   private
