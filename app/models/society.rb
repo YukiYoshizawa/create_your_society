@@ -10,6 +10,7 @@ class Society < ApplicationRecord
   validates :title, presence: true
   validates :introduction, presence: true
   has_one_attached :society_image
+
   
   def is_owned_by?(user)
     owner.id == user.id

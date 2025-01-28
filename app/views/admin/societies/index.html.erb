@@ -1,5 +1,23 @@
-<h1>admin/societies/index</h1>
-<h2>Society一覧</h2>
-<%  @societies.each do |society| %>
-  <%= link_to society.title, admin_society_path(society.id) %>
-<% end %>
+<%= link_to "管理者トップページへ戻る", admin_root_path %>
+<p id="notice"><%= notice %></p>
+<div class="societies">
+  <h2>管理者ソサエティ一覧</h2>
+  <div class="row">
+    <% @societies.each do |society| %> 
+      <div class="col-md-3 mb-5">
+        <%= link_to admin_society_path(society.id), class: "text-decoration-none w-25" do %>
+          <div class="card m-2 p-1 card-hover" style="width: 12rem;">
+            <% if society.society_image.attached? %> 
+              <%= image_tag society.society_image, alt: "ソサエティ画像", size:'180x180' %>
+            <% else %> 
+              <%= image_tag "no_image.jpg", size: '180x180' %> 
+            <% end %> 
+            <div class="card-body text-body">
+              <h5 class="card-title text-primary"><%= society.title %></h5>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

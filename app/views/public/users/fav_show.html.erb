@@ -1,4 +1,23 @@
-ブックマークしているソサエティ
-<% @liked_societies.each do |society| %>
-   <%= link_to society.title, society_path(society.id) %>
-<% end %>
+<%= link_to "マイページへ戻る", users_my_page_path %>
+<p id="notice"><%= notice %></p>
+<div class="societies">
+  <h2>ブックマークしているソサエティ</h2>
+  <div class="row">
+    <% @favorietes.each do |favorite| %>
+      <div class="col-md-3 mb-5">
+        <%= link_to society_path(favorite.society.id), class: "text-decoration-none w-25" do %>
+          <div class="card m-2 p-1 card-hover" style="width: 12rem;">
+            <% if favorite.society.society_image.attached? %> 
+              <%= image_tag favorite.society.society_image, alt: "ソサエティ画像", size:'180x180' %>
+            <% else %> 
+              <%= image_tag "no_image.jpg", size: '180x180' %> 
+            <% end %> 
+            <div class="card-body text-body">
+              <h5 class="card-title text-primary"><%= favorite.society.title %></h5>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

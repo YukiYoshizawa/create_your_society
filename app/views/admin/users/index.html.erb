@@ -1,5 +1,19 @@
-<h1>admin/users/index</h1> 
-
-<% @users.each do |user| %>
-  <%= link_to user.name, admin_users_show_path(user.id) %>
-<% end %>
+<%= link_to "管理者トップページへ戻る", admin_root_path %>
+<p id="notice"><%= notice %></p>
+<div class="users">
+  <h2>ユーザー一覧</h2>
+  <div class="row">
+    <% @users.each do |user| %> 
+      <div class="col-md-3 mb-5">
+        <%= link_to admin_society_path(user.id), class: "text-decoration-none w-25" do %>
+          <div class="card m-2 p-1 card-hover" style="width: 12rem;">
+            <%= image_tag user.get_profile_image(200,200) %>
+            <div class="card-body text-body">
+              <h5 class="card-title text-primary"><%= user.name %></h5>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

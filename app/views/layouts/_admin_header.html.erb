@@ -8,12 +8,12 @@
         <%=link_to "管理者トップページ",admin_root_path, class: "nav-link" %> 
       </li>
       <li class="nav-item active">
-        <%=link_to "ソサエティを作成する",new_society_path, class: "nav-link" %> 
-      </li>
-      <li class="nav-item active">
         <p class="nav-link">管理者さんお疲れ様です。</p>
       </li>
+      <li class="nav-item active">
+      </li>
     </ul>
+    <%=link_to "ソサエティを作成する",new_society_path, class: "btn btn-outline-info" %> 
   </div>
 <% else %>
   <ul class="navbar-nav mr-auto">
@@ -24,7 +24,8 @@
       <%= link_to "ログイン", new_user_session_path, class: "nav-link" %>
     </li>
     <li class="nav-item active">
-      <%=link_to "ソサエティを作成する",new_user_registration_path, class: "nav-link" %> 
+      
     </li>
   </ul>
+  <%=link_to "ソサエティを作成する",new_user_registration_path, class: "btn btn-outline-info" %> 
 <% end %>
