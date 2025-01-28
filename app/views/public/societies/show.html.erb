@@ -44,34 +44,43 @@
 
 <div class="row">
   <% if user_signed_in? %>
-      [カレンダー]
-    <%= link_to "カレンダー", society_schedules_path(@society.id) %>
+    <%= link_to "スケジュールを確認", society_schedules_path(@society.id) %>
   <% end %>
 </div>
 
 <% if user_signed_in? %>
-  <div class="row">
-    <div class="col-md-10">
-      <div>
-        [コメント一覧]
-        <% @society.society_comments.each do |society_comment| %>
-          <% if society_comment.society_comment_image.attached? %> 
-            <%= image_tag society_comment.society_comment_image, alt: "ソサエティコメント画像", size:'200x200' %>
-          <% end %> 
-          <%= society_comment.comment %>
-          <% if society_comment.latitude != 0 || society_comment.longitude != 0 %>
-            <%= link_to 'map', society_comment_map_path(@society, society_comment) %>
+  <div class="row" style="height: 1200px;">
+    <div class="col-md-10 mh-100">
+      <div class="d-flex flex-column-reverse align-items-stretch flex-shrink-0 bg-body-tertiary h-50 overflow-auto">
+        <div class="list-group list-group-flush border-bottom scrollarea">
+          <% @society.society_comments.each do |society_comment| %>
+            <div class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+              <div class="d-flex w-100 align-items-center justify-content-between">
+                <strong class="mb-1"><%= society_comment.user.name %></strong>
+                <small><%= society_comment.created_at.to_s(:datetime_jp) %></small>
+              </div>
+              <% if society_comment.society_comment_image.attached? %> 
+                <%= image_tag society_comment.society_comment_image, alt: "ソサエティコメント画像", size:'200x200' %>
+              <% end %> 
+              <div class="col-10 mb-1 small">
+                <%= society_comment.comment %>
+                <% if society_comment.latitude != 0 || society_comment.longitude != 0 %>
+                  <%= link_to '地図情報', society_comment_map_path(@society, society_comment) %>
+                <% end %>
+              </div>
+              <% if society_comment.user == current_user %>
+                  <div class="d-flex justify-content-end">
+                  <%= link_to "削除", society_society_comment_path(@society, society_comment), method: :delete, class: "btn btn-sm btn-danger float-end" %>
+                  </div>
+              <% end %>
+            </div>
           <% end %>
-          投稿者[<%= society_comment.user.name %>]
-          <% if society_comment.user == current_user %>
-            <%= link_to "Destroy", society_society_comment_path(@society, society_comment), method: :delete, class: "btn btn-sm btn-danger float-end" %>
-          <% end %>
-        <% end %>
+        </div>
       </div>
-      <div>
-        [コメントフォーム]
+
+      <div class="form">
         <%= form_with model: [@society, @society_comment] do |f| %>
-          <%= f.text_area :comment, rows:'5', placeholder: "ソサエティーへのメッセージ", class: "form-control my-2" %>
+          <%= f.text_area :comment, rows:'4', placeholder: "#{@society.title}へメッセージを送信", class: "form-control my-2" %>
           <%= f.file_field :society_comment_image, accept: "image/*" %>
           <div class="tag-area" id="tag-area">
             
