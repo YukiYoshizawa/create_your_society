@@ -1,13 +1,13 @@
 <h3>Create Society</h3>
 <%= form_with model: @society, local: true do |f| %>
   <%= f.label :ソサエティ名 %>
-  <%= f.text_field :title, class: 'form-control' %>
+  <%= f.text_field :title, placeholder: "新しいソサエティの名前を入力", class: 'form-control' %>
 
-    <%= f.label :紹介文 %>
-    <%= f.text_area :introduction, class: 'form-control' %>
+    <%= f.label :"紹介文", class: "mt-2" %>
+    <%= f.text_area :introduction, placeholder: "ソサエティを紹介する素敵な文章を考えましょう！", class: 'form-control', size: "50x15" %>
 
-    <%= f.label :ソサエティ画像 %>
+    <%= f.label :"ソサエティ画像", class: "mt-4" %>
     <%= f.file_field :society_image, class: "form-control-file" , accept: "image/*" %>
 
-    <%= f.submit class: 'btn btn-info' %>
+    <%= f.submit "ソサエティを作成", class: 'btn btn-info mt-2 btn-lg' %>
 <% end %>
