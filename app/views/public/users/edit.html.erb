@@ -5,7 +5,7 @@
 
     <div class="field">
       <%= f.label :"ユーザーネーム" %><br>
-      <%= f.text_field :name %>
+      <%= f.text_field :name, maxlength: 8 ,size: "30x10", placeholder: "8文字まで" %>
     </div>  
 
     <div class="field">
@@ -19,13 +19,13 @@
 
     <div class="field">
       <%= f.label :"メールアドレス" %><br />
-      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", size: "30x10" %>
     </div>
 
     <div class="field">
-      <%= f.label :"パスワード" %>
+      <%= f.label :"パスワード6文字以上" %>
       <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <em>(<%= @minimum_password_length %> 文字以上)</em>
       <% end %><br />
       <%= f.password_field :password, autocomplete: "new-password" %>
     </div>

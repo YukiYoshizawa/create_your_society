@@ -21,6 +21,8 @@ class Public::SocietiesController < ApplicationController
 
   def guest_show
     @society = Society.find(params[:id])
+    owner_id = @society.owner_id
+    @users_without_owner = @society.users.where.not(id: owner_id)
   end
 
   def new

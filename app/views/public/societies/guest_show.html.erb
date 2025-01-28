@@ -50,14 +50,15 @@
 
     <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary h-50 overflow-auto">
         <div class="list-group list-group-flush border-bottom scrollarea">
+          <strong style="color: mediumturquoise;">オーナー</strong>
           <div class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-            <strong style="color: mediumturquoise;">オーナー</strong>
             <%= image_tag @society.owner.get_profile_image(70,70) %>
             <strong class="mb-1"><%= @society.owner.name %></strong>
           </div>
           <% if @users_without_owner.blank? %>
             オーナー以外で参加しているメンバーはまだいません...
           <% else %>
+          <strong style="color: peachpuff;">メンバー</strong>
             <% @users_without_owner.each do |user| %>
               <div class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
                 <%= image_tag user.get_profile_image(70,70) %>
