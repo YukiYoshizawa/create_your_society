@@ -1,18 +1,46 @@
-<h1>admin/users/show</h1>
+<%= link_to "ユーザー一覧へ戻る", admin_users_index_path %>
+<p id="notice"><%= notice %></p>
 <h1>これは管理者画面です</h1>
-<%= @user.name %>
-さんのマイページ
 
-[このアカウントは
-<% if @user.is_active == true %>
-  有効です]
-<% else %>
-  無効です]
-<% end %>
+<div class="row">
+  <div class="col-6">
+    <h1><%= @user.name %>さんのマイページ</h1>
+    <%= image_tag @user.get_profile_image(200,200) %>
+  </div>
+  <div class="col-6">
+      <%= link_to "編集", admin_users_edit_path(@user.id), class: "btn btn-warning" %>
+      <div class="d-flex justify-content-end">
+      <%# <%= link_to "ブックマークしているソサエティ", users_favorites_society_path %> 
+      </div>
+  </div>
+</div>
 
-<%= link_to "編集", admin_users_edit_path(@user.id) %>
+<div class="societies">
+  <h2>参加しているソサエティ</h2>
+  <div class="row">
+    <% @societies.each do |society| %> 
+      <div class="col-md-3 mb-5">
+        <%= link_to society_path(society.id), class: "text-decoration-none w-25" do %>
+          <div class="card m-2 p-1 card-hover" style="width: 12rem;">
+            <% if society.society_image.attached? %> 
+              <%= image_tag society.society_image, alt: "ソサエティ画像", size:'180x180' %>
+            <% else %> 
+              <%= image_tag "no_image.jpg", size: '180x180' %> 
+            <% end %> 
+            <div class="card-body text-body">
+              <h5 class="card-title text-primary"><%= society.title %></h5>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
 
-<p>参加しているソサエティー</p>
-<% @societies.each do |society| %>
-  <%= link_to society.title, admin_society_path(society.id) %>
-<% end %>
+
+<%# [このアカウントは %>
+<%# <% if @user.is_active == true %> 
+  <%# 有効です] %>
+<%# <% else %> 
+  <%# 無効です] %>
+<%# <% end %> 
