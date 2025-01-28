@@ -11,23 +11,24 @@
   </div>
 </div>
 
-<h2>参加しているソサエティ</h2>
-<div class="row">
-  <% @societies.each do |society| %> 
-    <div class="col-md-3 mb-5">
-      <%= link_to society_path(society.id), class: "text-decoration-none w-25" do %>
-      <%# <%= link_to item_path(item.id), class: "text-decoration-none w-25" do %> 
-        <div class="card m-2 p-1 card-hover" style="width: 12rem;">
-          <% if society.society_image.attached? %> 
-            <%= image_tag society.society_image, alt: "ソサエティ画像", size:'180x180' %>
-          <% else %> 
-            <%= image_tag "no_image.jpg", size: '180x180' %> 
-          <% end %> 
-          <div class="card-body text-body">
-            <h5 class="card-title text-primary"><%= society.title %></h5>
+<div class="societies">
+  <h2>参加しているソサエティ</h2>
+  <div class="row">
+    <% @societies.each do |society| %> 
+      <div class="col-md-3 mb-5">
+        <%= link_to society_path(society.id), class: "text-decoration-none w-25" do %>
+          <div class="card m-2 p-1 card-hover" style="width: 12rem;">
+            <% if society.society_image.attached? %> 
+              <%= image_tag society.society_image, alt: "ソサエティ画像", size:'180x180' %>
+            <% else %> 
+              <%= image_tag "no_image.jpg", size: '180x180' %> 
+            <% end %> 
+            <div class="card-body text-body">
+              <h5 class="card-title text-primary"><%= society.title %></h5>
+            </div>
           </div>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>
