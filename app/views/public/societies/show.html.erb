@@ -57,8 +57,9 @@
 
 <% if user_signed_in? %>
   <div class="row">
-    <div class="col-md-10">
-      <div class="d-flex flex-column-reverse align-items-stretch flex-shrink-0 bg-body-tertiary h-50 overflow-auto">
+    <div class="col-md-10" style= "height: 100%;">
+      <div style="height: 400px;" >
+      <div class="d-flex flex-column-reverse align-items-stretch flex-shrink-0 bg-body-tertiary h-50 overflow-auto" style="min-height: 400px;">
         <div class="list-group list-group-flush border-bottom scrollarea">
           <% @society.society_comments.each do |society_comment| %>
             <div class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
@@ -86,6 +87,7 @@
           <% end %>
         </div>
       </div>
+      </div>
 
       <div class="form">
         <%= form_with model: [@society, @society_comment] do |f| %>
@@ -98,18 +100,19 @@
         <% end %>
       </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2"  style="min-height: 400px; ">
 
-      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary h-50 overflow-auto">
+      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary h-50 overflow-auto" style="min-height: 400px; ">
         <div class="list-group list-group-flush border-bottom scrollarea">
+          <strong style="color: mediumturquoise;">オーナー</strong>
+          <div class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+            <%= image_tag @society.owner.get_profile_image(70,70) %>
+            <strong class="mb-1"><%= @society.owner.name %></strong>
+          </div>
           <% if @users_without_owner.blank? %>
             オーナー以外で参加しているメンバーはまだいません...
           <% else %>
-            <div class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-              <strong style="color: mediumturquoise;">オーナー</strong>
-              <%= image_tag @society.owner.get_profile_image(70,70) %>
-              <strong class="mb-1"><%= @society.owner.name %></strong>
-            </div>
+          <strong style="color: peachpuff;">メンバー</strong>
             <% @users_without_owner.each do |user| %>
               <div class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
                 <%= image_tag user.get_profile_image(70,70) %>

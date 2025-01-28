@@ -10,7 +10,7 @@ class Public::SocietiesController < ApplicationController
     @society_comment = SocietyComment.new
     
     owner_id = @society.owner_id
-    @users_without_owner = User.joins(:user_societies).where.not(id: owner_id)
+    @users_without_owner = @society.users.where.not(id: owner_id)
     if  user_signed_in?
       @user_societies = current_user.societies
       unless @user_societies.include?(@society)
