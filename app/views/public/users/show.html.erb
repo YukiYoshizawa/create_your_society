@@ -2,6 +2,7 @@
 <%= @user.name %>さんのマイページ
 </h1>
 <%= link_to "編集", users_information_edit_path %>
+<%= image_tag @user.get_profile_image(100,100) %>
 
 参加しているソサエティ
 <% @societies.each do |society| %> 
