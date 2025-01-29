@@ -5,7 +5,7 @@
   <div class="row">
     <% @users.each do |user| %> 
       <div class="col-md-3 mb-5">
-        <%= link_to admin_society_path(user.id), class: "text-decoration-none w-25" do %>
+        <%= link_to admin_users_show_path(user.id), class: "text-decoration-none w-25" do %>
           <div class="card m-2 p-1 card-hover" style="width: 12rem;">
             <%= image_tag user.get_profile_image(200,200) %>
             <div class="card-body text-body">
