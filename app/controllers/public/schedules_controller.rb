@@ -16,6 +16,11 @@ class Public::SchedulesController < ApplicationController
 
   def show
     @schedule = Schedule.find(params[:id])
+    @society = @schedule.society
+    @user_societies = current_user.societies
+    unless @user_societies.include?(@society)
+      redirect_to society_path(@society.id), notice:"カレンダーは加入メンバーのみが閲覧できます"
+    end
   end
 
   def create
