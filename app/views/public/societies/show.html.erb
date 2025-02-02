@@ -10,7 +10,8 @@
      <% end %> 
   </div>
   <div class="col-7 mt-3 overflow-auto" style="height: 250px;">
-    <%=@society.introduction %>
+    <%=safe_join(@society.introduction.split("\n"),tag(:br))%>
+    <%# <%=@society.introduction %> 
   </div>
 
   <div class="col-2">
