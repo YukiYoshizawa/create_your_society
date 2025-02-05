@@ -26,5 +26,20 @@ class Society < ApplicationRecord
       .order(created_at: :desc) # 4. 投稿を作成日時の降順でソート
   end
 
+  # 検索方法分岐
+  def self.looks(search, word)
+    if search == "perfect_match"
+      @society = Society.where("title LIKE?","#{word}")
+    elsif search == "forward_match"
+      @society = Society.where("title LIKE?","#{word}%")
+    elsif search == "backward_match"
+      @society = Society.where("title LIKE?","%#{word}")
+    elsif search == "partial_match"
+      @society = Society.where("title LIKE?","%#{word}%")
+    else
+      @society = Society.all
+    end
+  end
+
   
 end
