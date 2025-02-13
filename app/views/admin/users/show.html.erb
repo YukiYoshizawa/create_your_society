@@ -1,6 +1,12 @@
 <%= link_to "ユーザー一覧へ戻る", admin_users_index_path %>
 <p id="notice"><%= notice %></p>
 <h1>これは管理者画面です</h1>
+このアカウントは 
+<% if @user.is_active == true %> 
+  [有効です]
+<% else %> 
+  [無効です]
+<% end %> 
 
 <div class="row">
   <div class="col-6">
@@ -38,9 +44,4 @@
 </div>
 
 
-<%# [このアカウントは %>
-<%# <% if @user.is_active == true %> 
-  <%# 有効です] %>
-<%# <% else %> 
-  <%# 無効です] %>
-<%# <% end %> 
+
