@@ -4,7 +4,7 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = current_user
-    @societies = @user.societies
+    @societies = @user.societies.page(params[:page])
     @favorites = Favorite.where(user_id: current_user.id)
   end
 
