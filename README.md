@@ -43,13 +43,13 @@ SNSを利用している際に同じ趣味の人たちと交流したいと思�
 <!-- 【補足説明】 -->
 <!-- - テーマ提出時点では不要です。 -->
 <!-- - 当項目には「後ほど作成予定」と記載しましょう。 -->
-- アプリケーション詳細設計書
+- アプリケーション詳細設計書<br>
 https://docs.google.com/spreadsheets/d/1ov4yhWgXR3d4mLSIUqg-uycA_Add6j5KmUjfvYARRkk/edit?usp=sharing
 
-- テーブル定義書
+- テーブル定義書<br>
 https://docs.google.com/spreadsheets/d/1sau_pGRIMEQFN_ckeDh8EPec212Vo92HQDN0LFTvhyw/edit?usp=sharing
 
-- ER図
+- ER図<br>
 https://drive.google.com/file/d/1j8802FetOBqgK55QBiVm3ZpLFFxDV31v/view?usp=sharing
 
 ## 開発環境
