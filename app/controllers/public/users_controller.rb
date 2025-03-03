@@ -10,7 +10,7 @@ class Public::UsersController < ApplicationController
 
   def fav_show
     @user = current_user
-    @favorietes = @user.favorites
+    @favorietes = @user.favorites.page(params[:page])
     # @favoriets.each do |favorite|
     #   @society = Society.find_by()
     # end
