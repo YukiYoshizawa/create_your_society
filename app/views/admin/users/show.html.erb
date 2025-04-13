@@ -26,7 +26,7 @@
   <div class="row">
     <% @societies.each do |society| %> 
       <div class="col-md-3 mb-5">
-        <%= link_to society_path(society.id), class: "text-decoration-none w-25" do %>
+        <%= link_to admin_society_path(society.id), class: "text-decoration-none w-25" do %>
           <div class="card m-2 p-1 card-hover" style="width: 12rem;">
             <% if society.society_image.attached? %> 
               <%= image_tag society.society_image, alt: "ソサエティ画像", size:'180x180' %>
